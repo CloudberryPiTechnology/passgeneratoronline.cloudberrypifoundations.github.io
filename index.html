@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pass-Generator</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f4f4f4;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+    .container {
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 350px;
+        text-align: center;
+    }
+
+    input[type="number"] {
+        width: 100%;
+        padding: 10px;
+        margin: 15px 0;
+        box-sizing: border-box;
+    }
+
+    button {
+        padding: 10px 15px;
+        margin: 5px;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        color: white;
+    }
+
+    .show-btn {
+        background: #28a745;
+    }
+
+    .copy-btn {
+        background: #007bff;
+    }
+
+    button:hover {
+        opacity: 0.9;
+    }
+
+    #result {
+        margin-top: 20px;
+        padding: 10px;
+        background: #f8f8f8;
+        border-radius: 6px;
+        word-break: break-all;
+        min-height: 20px;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Password Generator</h2>
+
+    <label>Password Length:</label>
+    <input type="number" id="length" min="1" placeholder="Enter length">
+
+    <div>
+        <button class="show-btn" onclick="showPassword()">
+            Generate & Show
+        </button>
+
+        <button class="copy-btn" onclick="copyPassword()">
+            Generate & Copy
+        </button>
+    </div>
+
+    <div id="result"></div>
+</div>
+
+<script>
+function generatePassword(length) {
+    const chars =
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+    let password = "";
+
+    for (let i = 0; i < length; i++) {
+        password += chars[Math.floor(Math.random() * chars.length)];
+    }
+
+    return password;
+}
+
+function getLength() {
+    const length = parseInt(document.getElementById("length").value);
+
+    if (isNaN(length) || length <= 0) {
+        throw new Error("Please enter a valid positive number.");
+    }
+
+    return length;
+}
+
+function showPassword() {
+    try {
+        const password = generatePassword(getLength());
+
+        document.getElementById("result").textContent = password;
+    } catch (err) {
+        alert(err.message);
+    }
+}
+
+async function copyPassword() {
+    try {
+        const password = generatePassword(getLength());
+
+        await navigator.clipboard.writeText(password);
+
+        document.getElementById("result").textContent =
+            "Password copied to clipboard.";
+    } catch (err) {
+        alert(err.message);
+    }
+}
+</script>
+
+</body>
+</html>
