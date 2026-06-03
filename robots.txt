@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /private/
+Disallow: /images/select/
+Crawl-delay: 10
+
+Sitemap: https://example.com/sitemap.xml
